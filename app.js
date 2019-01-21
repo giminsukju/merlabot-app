@@ -88,7 +88,7 @@ app.get('/', function (req, res) {
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
     console.log("request");
-    if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === config.FB_VERIFY_TOKEN) {
+    if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === config.FB_VERIFY_TOKEN) {//token made up is verified
         res.status(200).send(req.query['hub.challenge']);
     } else {
         console.error("Failed validation. Make sure the validation tokens match.");
@@ -110,7 +110,7 @@ app.post('/webhook/', function (req, res) {
 
 
     // Make sure this is a page subscription
-    if (data.object == 'page') {
+    if (data.object == 'page') {//make sure this is page subscription
         // Iterate over each entry
         // There may be multiple if batched
         data.entry.forEach(function (pageEntry) {
@@ -121,11 +121,11 @@ app.post('/webhook/', function (req, res) {
             pageEntry.messaging.forEach(function (messagingEvent) {
                 if (messagingEvent.optin) {
                     receivedAuthentication(messagingEvent);
-                } else if (messagingEvent.message) {
+                } else if (messagingEvent.message) {//message we read: text, quick replies, attachments
                     receivedMessage(messagingEvent);
                 } else if (messagingEvent.delivery) {
                     receivedDeliveryConfirmation(messagingEvent);
-                } else if (messagingEvent.postback) {
+                } else if (messagingEvent.postback) {//if we want to perform any action after the event is triggered (e.g. unable a button once it's clicked and move on to another intent)
                     receivedPostback(messagingEvent);
                 } else if (messagingEvent.read) {
                     receivedMessageRead(messagingEvent);
@@ -160,12 +160,13 @@ function receivedMessage(event) {
     //console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
     //console.log(JSON.stringify(message));
 
-    var isEcho = message.is_echo;
+    var isEcho = message.is_echo;//message sent by my page
     var messageId = message.mid;
     var appId = message.app_id;
     var metadata = message.metadata;
 
     // You may get a text or attachment but not both
+    // only one of these three will have content
     var messageText = message.text;
     var messageAttachments = message.attachments;
     var quickReply = message.quick_reply;
@@ -190,14 +191,14 @@ function receivedMessage(event) {
 
 function handleMessageAttachments(messageAttachments, senderID){
     //for now just reply
-    sendTextMessage(senderID, "Attachment received. Thank you.");
+    sendTextMessage(senderID, "Attachment received. Thank you.");//user response
 }
 
 function handleQuickReply(senderID, quickReply, messageId) {
     var quickReplyPayload = quickReply.payload;
     console.log("Quick reply for message %s with payload %s", messageId, quickReplyPayload);
     //send payload to api.ai
-    sendToDialogFlow(senderID, quickReplyPayload);
+    sendToDialogFlow(senderID, quickReplyPayload);//to make DF deal for us
 }
 
 //https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-echo
@@ -322,7 +323,7 @@ function handleDialogFlowResponse(sender, response) {
 
     sendTypingOff(sender);
 
-    if (isDefined(action)) {
+    if (isDefined(action)) {//has an action set
         handleDialogFlowAction(sender, action, messages, contexts, parameters);
     } else if (isDefined(messages)) {
         handleMessages(messages, sender);
@@ -336,13 +337,13 @@ function handleDialogFlowResponse(sender, response) {
 
 async function sendToDialogFlow(sender, textString, params) {
 
-    sendTypingOn(sender);
+    sendTypingOn(sender);//tells FB messenger to show dots as if someone is typing
 
     try {
         const sessionPath = sessionClient.sessionPath(
             config.GOOGLE_PROJECT_ID,
             sessionIds.get(sender)
-        );
+        );//able to track conversation with this particular user, by each session
 
         const request = {
             session: sessionPath,
@@ -361,7 +362,7 @@ async function sendToDialogFlow(sender, textString, params) {
         const responses = await sessionClient.detectIntent(request);
 
         const result = responses[0].queryResult;
-        handleDialogFlowResponse(sender, result);
+        handleDialogFlowResponse(sender, result);//read what DF found for us
     } catch (e) {
         console.log('error');
         console.log(e);
@@ -749,6 +750,7 @@ function receivedMessageRead(event) {
 
     console.log("Received message read event for watermark %d and sequence " +
         "number %d", watermark, sequenceNumber);
+        //relevent data received from request logged on console
 }
 
 /*
