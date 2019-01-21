@@ -1,8 +1,8 @@
 module.exports = {
-    FB_PAGE_TOKEN: '',
-    FB_VERIFY_TOKEN: '',
-    FB_APP_SECRET: '',
-    SERVER_URL: '',
+    FB_PAGE_TOKEN: 'EAALaj9mkk9gBAGdFWxEA3jqkVPXbg0e0uflFIIqJUwNAomymRLI8FYisDmu39yzhIaZCZB8x3559lrgJgQIZAO33TZBE7zJxS2FLVhzODY9GZCsv4ruz1pyDvT7DLRiZA2fLtYDjeqbmWrTGfh1s1m7sZBxN1Bmp9Nk5ymZBuZCv8ZBwZDZD',
+    FB_VERIFY_TOKEN: '1234567890',
+    FB_APP_SECRET: '66181b76ad93360c0915011f15c83160',
+    SERVER_URL: 'https://gimin-chatbottest.herokuapp.com/',
     GOOGLE_PROJECT_ID: '',
     DF_LANGUAGE_CODE: '',
     GOOGLE_CLIENT_EMAIL: '',

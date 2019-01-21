@@ -3,14 +3,16 @@
 const dialogflow = require('dialogflow');
 const config = require('./config');
 const express = require('express');
-const crypto = require('crypto');
-const bodyParser = require('body-parser');
-const request = require('request');
-const app = express();
+const crypto = require('crypto');//verifying request signature
+const bodyParser = require('body-parser');//parsing request data
+const request = require('request');//making request
+const app = express();//minial and flexible node.js application framework provides a robust set of features
 const uuid = require('uuid');
 
 
 // Messenger API parameters
+//verify that the concig variables are set
+//if not error
 if (!config.FB_PAGE_TOKEN) {
     throw new Error('missing FB_PAGE_TOKEN');
 }
@@ -42,14 +44,14 @@ app.set('port', (process.env.PORT || 5000))
 
 //verify request came from facebook
 app.use(bodyParser.json({
-    verify: verifyRequestSignature
+    verify: verifyRequestSignature//verify if the request coming from facebook, right application
 }));
 
 //serve static files in the public directory
-app.use(express.static('public'));
+app.use(express.static('public'));//set folder public and makes the folder visible so that it is accessible via the http
 
 // Process application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({
+app.use(bodyParser.urlencoded({//parse requests
     extended: false
 }));
 
@@ -59,13 +61,15 @@ app.use(bodyParser.json());
 
 
 
-
+//authenticate DF client
 
 const credentials = {
     client_email: config.GOOGLE_CLIENT_EMAIL,
     private_key: config.GOOGLE_PRIVATE_KEY,
+    //coming from service account
 };
 
+//pass credentials and the project ID (Google project ID) to DF session client
 const sessionClient = new dialogflow.SessionsClient(
     {
         projectId: config.GOOGLE_PROJECT_ID,
@@ -95,7 +99,7 @@ app.get('/webhook/', function (req, res) {
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
  * webhook. Be sure to subscribe your app to your page to receive callbacks
- * for your page. 
+ * for your page.
  * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
  *
  */
@@ -701,9 +705,9 @@ function callSendAPI(messageData) {
 /*
  * Postback Event
  *
- * This event is called when a postback is tapped on a Structured Message. 
+ * This event is called when a postback is tapped on a Structured Message.
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
- * 
+ *
  */
 function receivedPostback(event) {
     var senderID = event.sender.id;
@@ -733,7 +737,7 @@ function receivedPostback(event) {
  *
  * This event is called when a previously-sent message has been read.
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
- * 
+ *
  */
 function receivedMessageRead(event) {
     var senderID = event.sender.id;
@@ -753,7 +757,7 @@ function receivedMessageRead(event) {
  * This event is called when the Link Account or UnLink Account action has been
  * tapped.
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/account-linking
- * 
+ *
  */
 function receivedAccountLink(event) {
     var senderID = event.sender.id;
@@ -769,7 +773,7 @@ function receivedAccountLink(event) {
 /*
  * Delivery Confirmation Event
  *
- * This event is sent to confirm the delivery of a message. Read more about 
+ * This event is sent to confirm the delivery of a message. Read more about
  * these fields at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
  *
  */
@@ -794,8 +798,8 @@ function receivedDeliveryConfirmation(event) {
 /*
  * Authorization Event
  *
- * The value for 'optin.ref' is defined in the entry point. For the "Send to 
- * Messenger" plugin, it is the 'data-ref' field. Read more at 
+ * The value for 'optin.ref' is defined in the entry point. For the "Send to
+ * Messenger" plugin, it is the 'data-ref' field. Read more at
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/authentication
  *
  */
@@ -821,28 +825,28 @@ function receivedAuthentication(event) {
 }
 
 /*
- * Verify that the callback came from Facebook. Using the App Secret from 
- * the App Dashboard, we can verify the signature that is sent with each 
+ * Verify that the callback came from Facebook. Using the App Secret from
+ * the App Dashboard, we can verify the signature that is sent with each
  * callback in the x-hub-signature field, located in the header.
  *
  * https://developers.facebook.com/docs/graph-api/webhooks#setup
  *
  */
 function verifyRequestSignature(req, res, buf) {
-    var signature = req.headers["x-hub-signature"];
+    var signature = req.headers["x-hub-signature"]; //signature from the request's header
 
-    if (!signature) {
+    if (!signature) {//no signature
         throw new Error('Couldn\'t validate the signature.');
     } else {
         var elements = signature.split('=');
         var method = elements[0];
         var signatureHash = elements[1];
 
-        var expectedHash = crypto.createHmac('sha1', config.FB_APP_SECRET)
+        var expectedHash = crypto.createHmac('sha1', config.FB_APP_SECRET)//compare the signature hash with the encrypted app secret from our config file
             .update(buf)
             .digest('hex');
 
-        if (signatureHash != expectedHash) {
+        if (signatureHash != expectedHash) {//doesn't match
             throw new Error("Couldn't validate the request signature.");
         }
     }
