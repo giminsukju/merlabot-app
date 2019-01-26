@@ -1,0 +1,38 @@
+﻿https://www.nngroup.com/articles/chatbots/
+
+##Chatbot growth & popularity
+
+- First, there is the hope to reduce customer-service costs by replacing human agents with bots. 
+- Second, the success of conversational-based systems like WeChat has put forward the idea of chatbots as an interaction channel with businesses and services, intended to supplement existing channels such as the mobile web and mobile apps. 
+- Last, the popularity of voice-based intelligent assistants such as Alexa and Google Home has pushed many businesses to emulate them at a smaller scale.
+
+##Advantage of chatbot
+
+Less information overload. With a chatbot, there are fewer distractions and less information to attend to — as long as they stay within the chatbot’s rules, the experience will be straightforward. 
+
+##Chatbot limitations
+
+We saw that even good chatbots (which are likely to increased development and testing costs) have little chance of being discovered and considered useful.
+- First, most users are not aware of the existence of chat as a separate interaction channel in Messenger, Twitter, or Slack. When they think “chat”, they think “chat with a person.” 
+- Second, chatbots (as implemented today) are a fairly narrow communication channel — compared with a website, chatbots can display only a very small amount of information at a time (plus, typing is less efficient than selecting information).
+- Third, chatbots today are still far from showing any “intelligence” — they feel like wizards: step-by-step linear processes for fairly simple tasks.
+
+##UX Guidelines for Designing Chatbots
+
+Be upfront about using a bot and not a human.
+
+Clearly tell people what tasks the bot can do. Make sure you don’t create false expectations.
+
+Don’t be overly ambitious: create bots for simple tasks. Complexity is not well handled in the limited bot interface.
+
+Tolerate typos and ambiguity.
+
+Allow people to interact with the bot both through free-text input and selection of links.
+
+Allow sorting and filtering to let people narrow down through results.
+
+Save information from one task to the next.
+
+Program some flexibility into the bot: infer context and allow people to jump forward and backward in the linear flow.
+
+Be honest about not understanding. Offer an escape hatch in the form of a real human, a phone number, or a link to a different interaction channel
