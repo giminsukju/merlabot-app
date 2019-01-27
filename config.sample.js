@@ -1,6 +1,6 @@
 module.exports = {
     FB_PAGE_TOKEN: 'EAADRTkPDc3ABAHU167LNujZCFEEZBk8o92obSXKH4VG7h4ZAorZBSFzY1pi2jOhkVmBd6xYAZBVsb91wz2Ls7q3TvvUOGObVFI2QQuYOjPBHRnWciK2hVOUfdITky7u7jFhsRvzPwKm26cXbZBH6h61m2v8BjmdX0VAra0uCbe4AZDZD',
-    FB_VERIFY_TOKEN: 'Merlabot_2019',
+    FB_VERIFY_TOKEN: 'merlabottokenplswork',
     FB_APP_SECRET: 'a5f98f33bdb6eaaf1bbb95c21b83d4f5',
     SERVER_URL: 'https://lit-temple-76990.herokuapp.com/',
     GOOGLE_PROJECT_ID: 'merlabot-en',
