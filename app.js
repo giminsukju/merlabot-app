@@ -119,7 +119,7 @@ app.post('/webhook/', function (req, res) {
 
             // Iterate over each messaging event
             pageEntry.messaging.forEach(function (messagingEvent) {
-                if (messagingEvent.optin) {
+                if (messagingEvent.optin) {//authentication
                     receivedAuthentication(messagingEvent);
                 } else if (messagingEvent.message) {//message we read: text, quick replies, attachments
                     receivedMessage(messagingEvent);
