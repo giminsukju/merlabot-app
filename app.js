@@ -182,7 +182,7 @@ function receivedMessage(event) {
 
     if (messageText) {
         //send message to api.ai
-        //sendToDialogFlow(senderID, messageText);
+        sendToDialogFlow(senderID, messageText);
     } else if (messageAttachments) {
         handleMessageAttachments(messageAttachments, senderID);
     }
